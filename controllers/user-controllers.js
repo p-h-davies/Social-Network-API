@@ -60,5 +60,44 @@ module.exports = {
             console.log('Uh Oh, something went wrong');
             res.status(500).json({ error: 'Something went wrong' });
         }
+    },
+
+
+    async addFriend(req, res) {
+        try {
+            const user = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                {
+                    $addToSet: { friends: req.params.friendId },
+                },
+                { new: true }
+            );
+            if (!user) {
+                return res.status(404).json({ message: 'User not found!' });
+            }
+            res.status(200).json(user);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
+
+    async deleteFriend(req, res) {
+        try {
+            const user = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                {
+                    $pull: { friends: req.params.friendId },
+                },
+                { new: true }
+            );
+
+            if (!user) {
+                return res.status(404).json({ message: 'User not found!' });
+            }
+
+            res.status(200).json(user);
+        } catch (err) {
+            res.status(500).json(err);
+        }
     }
 }
