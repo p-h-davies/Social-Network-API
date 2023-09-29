@@ -19,7 +19,7 @@ const reactionSchema = new Schema(
         },
         createdAt: {
             type: Date, default: Date.now,
-            get: (timestamp) => moment(timestamp).format('MMM Do, YYYY [at] hh:mm a')
+            get: (date) => moment(date).format('MMM Do, YYYY [at] hh:mm a')
 
         }
     },
@@ -37,7 +37,7 @@ const thoughtSchema = new Schema(
         thoughtText: { type: String, required: true, minLength: 1, maxLength: 280 },
         createdAt: {
             type: Date, default: Date.now,
-            get: (timestamp) => moment(timestamp).format('MMM Do, YYYY [at] hh:mm a')
+            get: (date) => moment(date).format('MMM Do, YYYY [at] hh:mm a')
 
         },
         username: { type: String, required: true },
@@ -59,6 +59,5 @@ const Thought = model('Thought', thoughtSchema);
 thoughtSchema.virtual('reactionCount').get(function () {
     return this.reactions.length;
 });
-
 
 module.exports = Thought;

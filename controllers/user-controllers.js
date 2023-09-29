@@ -2,6 +2,7 @@ const { User, Thought } = require('../models');
 const { ObjectId } = require('mongodb');
 
 module.exports = {
+    //Get all users route functionality
     async getAllUsers(req, res) {
         try {
             const users = await User.find().populate({ path: 'thoughts', select: '-__v' }).populate({ path: 'friends', select: '-__v' });
@@ -11,7 +12,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
-
+    //Get user by ID route functionality
     async getUserById(req, res) {
         try {
             const user = await User.findOne({ _id: req.params.userId }).populate({ path: 'thoughts', select: '-__v' }).populate({ path: 'friends', select: '-__v' });
@@ -22,7 +23,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-
+    //Create User route functionality
     async createUser(req, res) {
         try {
             const user = await User.create(req.body);
@@ -31,7 +32,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-
+    //Update user route functionality
     async updateUser(req, res) {
         try {
             const user = await User.findOneAndUpdate(
@@ -51,6 +52,7 @@ module.exports = {
         }
     },
 
+    //Delete user route functionality
     async deleteUser(req, res) {
         try {
             const user = await User.findByIdAndDelete({ _id: req.params.userId });
@@ -62,7 +64,7 @@ module.exports = {
         }
     },
 
-
+    //Add friend route functionality
     async addFriend(req, res) {
         try {
             const user = await User.findOneAndUpdate(
@@ -81,6 +83,7 @@ module.exports = {
         }
     },
 
+    //Delete friend route functionality
     async deleteFriend(req, res) {
         try {
             const user = await User.findOneAndUpdate(

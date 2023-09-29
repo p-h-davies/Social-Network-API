@@ -1,4 +1,5 @@
 const router = require('express').Router();
+//Import router functionalities
 const {
     getAllThoughts,
     getThoughtById,

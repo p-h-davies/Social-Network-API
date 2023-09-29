@@ -1,6 +1,7 @@
 const { User, Thought } = require('../models');
 
 module.exports = {
+    //Get all thoughts route functionality
     async getAllThoughts(req, res) {
         try {
             const thought = await Thought.find().populate({ path: 'reactions', select: '-__v' })
@@ -10,7 +11,7 @@ module.exports = {
             return res.status(500).json(err);
         }
     },
-
+    //Get thought by ID route functionality
     async getThoughtById(req, res) {
         try {
             const thought = await Thought.findOne({ _id: req.params.id }).populate({ path: 'reactions', select: '-__v' });
@@ -21,7 +22,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-
+    //Create thought route functionality
     async createThought(req, res) {
         try {
             const thought = await Thought.create(req.body);
@@ -38,7 +39,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-
+    //Update thought route functionality
     async updateThought(req, res) {
         try {
             const thought = await Thought.findOneAndUpdate(
@@ -56,7 +57,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-
+    //Delete thought route functionality
     async deleteThought(req, res) {
         try {
             const thought = await Thought.findByIdAndDelete({ _id: req.params.id });
@@ -67,7 +68,7 @@ module.exports = {
             res.status(500).json({ error: 'Something went wrong' });
         }
     },
-
+    //Create reaction route functionality
     async createReaction(req, res) {
         try {
             const thought = await Thought.findOneAndUpdate(
@@ -85,7 +86,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
-
+    //Delete reaction route functionality
     async deleteReaction(req, res) {
         try {
             const thought = await Thought.findOneAndUpdate(
