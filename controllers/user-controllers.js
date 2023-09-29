@@ -14,7 +14,7 @@ module.exports = {
 
     async getUserById(req, res) {
         try {
-            const user = await User.findOne({ _id: req.params.id }).populate({ path: 'thoughts', select: '-__v' }).populate({ path: 'friends', select: '-__v' });
+            const user = await User.findOne({ _id: req.params.userId }).populate({ path: 'thoughts', select: '-__v' }).populate({ path: 'friends', select: '-__v' });
             !user
                 ? res.status(404).json({ message: 'No user with that ID' })
                 : res.json(user);
@@ -32,7 +32,7 @@ module.exports = {
     },
     async updateUser(req, res) {
         try {
-            const user = await User.findOneAndUpdate({ _id: req.params.id });
+            const user = await User.findOneAndUpdate({ _id: req.params.userId });
             user.username = req.body.username;
             user.email = req.body.email
             user.save()
@@ -41,11 +41,11 @@ module.exports = {
         }
     },
     async deleteUser(req, res) {
-        const id = new ObjectId(req.params.id);
+        const id = new ObjectId(req.params.userId);
         console.log(id)
         try {
             console.log(id)
-            const user = await User.findByIdAndDelete({ _id: id });
+            const user = await User.findByIdAndDelete({ _id: req.params.userId });
             res.status(200).json(user);
             console.log(`Deleted: ${user}`);
         } catch (err) {
