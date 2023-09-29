@@ -6,7 +6,8 @@
     "node": "^20.7.0"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "seed": "node utils/seed"
   },
   "name": "social-network-api",
   "description": "",

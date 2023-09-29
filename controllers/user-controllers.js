@@ -22,6 +22,7 @@ module.exports = {
             res.status(500).json(err);
         }
     },
+
     async createUser(req, res) {
         try {
             const user = await User.create(req.body);
@@ -30,21 +31,28 @@ module.exports = {
             res.status(500).json(err);
         }
     },
+
     async updateUser(req, res) {
         try {
-            const user = await User.findOneAndUpdate({ _id: req.params.userId });
-            user.username = req.body.username;
-            user.email = req.body.email
-            user.save()
+            const user = await User.findOneAndUpdate(
+                { _id: req.params.userId },
+                {
+                    username: req.body.username,
+                    email: req.body.email,
+                },
+                { new: true }
+            );
+            if (!user) {
+                return res.status(404).json({ message: 'User not found!' });
+            }
+            res.status(200).json(user);
         } catch (err) {
             res.status(500).json(err);
         }
     },
+
     async deleteUser(req, res) {
-        const id = new ObjectId(req.params.userId);
-        console.log(id)
         try {
-            console.log(id)
             const user = await User.findByIdAndDelete({ _id: req.params.userId });
             res.status(200).json(user);
             console.log(`Deleted: ${user}`);

@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const User = require('./user.js');
 
 //Creates Reaction Schema
 const reactionSchema = new Schema(
@@ -45,29 +44,12 @@ const thoughtSchema = new Schema(
 );
 
 //Initialises Thought
-const Thought = model('thoughts', thoughtSchema);
+const Thought = model('Thought', thoughtSchema);
 
 //Virtual to view reaction count
 thoughtSchema.virtual('reactionCount').get(function () {
     return this.reactions.length;
 });
 
-//Checks to see if DB is already seeded, and, if not, seeds it
-Thought.find({})
-    .exec()
-    .then(async collection => {
-        if (collection.length === 0) {
-            try {
-                const insertedItems = await Thought
-                    .insertMany([
-                        { username: 'javascriptlover23', thoughtText: 'i love javascript!' },
-                        { username: 'mongoosegirl', thoughtText: 'mongooses (mongeese?) are the cutest!!' },
-                    ]);
-                console.log('Inserted items:', insertedItems);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    });
 
 module.exports = Thought;
